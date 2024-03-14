@@ -11,9 +11,13 @@ from .forms import ArticleForm
 def articles(request):
     # logger.warning("Platform is running at risk")
     articles = Article.objects.all()
+    # articles = Article.objects.select_related('category').all()
+    # articles = Article.objects.prefetch_related('tags').all()
+
     # paginator = Paginator(articles, 2)
     # page_number = request.GET.get("page")
     # page_obj = paginator.get_page(page_number)
+    # categories = Category.objects.prefetch_related('article_set').all()
 
     return render(request, 'articles/index.html', {"articles": articles})
 

@@ -10,6 +10,7 @@ class BlogListView(ListView):
     model = Post
     paginate_by = 2
     template_name = "post/post_list.html"
+    # queryset = Post.objects.all().select_related('category').prefetch_related('tags')
 
 
 class BlogDetailView(DetailView):
