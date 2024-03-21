@@ -5,12 +5,17 @@ from .models import Article
 from django.http import HttpResponseRedirect
 from .forms import ArticleForm
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.sessions.models import Session
 
 # from django.core.paginator import Paginator
 # import logging
 # logger = logging.getLogger(__name__)
 
 def articles(request):
+    # request.session["custom_sessions"] = 'test'
+    # session_object = Session.objects.get(pk="73ifrf71jfmfvqbp2bkr0yf2jilbvihi")
+    # print(session_object.get_decoded())
+
     # logger.warning("Platform is running at risk")
     articles = Article.objects.all()
     # articles = Article.objects.select_related('category').all()
