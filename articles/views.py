@@ -1,9 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib import messages
 from django.urls import reverse
 from .models import Article
 from django.http import HttpResponseRedirect
 from .forms import ArticleForm
+from django.contrib.auth.decorators import login_required, permission_required
+
 # from django.core.paginator import Paginator
 # import logging
 # logger = logging.getLogger(__name__)
@@ -21,7 +23,7 @@ def articles(request):
 
     return render(request, 'articles/index.html', {"articles": articles})
 
-
+@login_required
 def article_create(request):
     if request.method == 'POST':
         article_form = ArticleForm(request.POST, request.FILES)
@@ -33,9 +35,10 @@ def article_create(request):
         article_form = ArticleForm()
     return render(request, 'articles/create.html', {'article_form': article_form})
 
-
+@permission_required('articles.change_article')
 def article_update(request, article_id):
-    article = Article.objects.get(id=article_id)
+    # article = Article.objects.get(id=article_id)
+    article = get_object_or_404(Article, pk=article_id)
 
     if request.method == 'POST':
         article_form = ArticleForm(request.POST, request.FILES, instance=article)
@@ -48,6 +51,10 @@ def article_update(request, article_id):
 
 
 def article_delete(request, article_id):
+    if not request.user.has_perm('articles.delete_article'):
+        messages.error(request, "Не достаточно прав")
+        return HttpResponseRedirect(reverse('article.index'))
+
     if request.method == 'POST':
         article = Article.objects.get(id=article_id)
         article.delete()

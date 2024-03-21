@@ -38,7 +38,9 @@
       <td>{{article.name}}</td>
       <td>
         <div class="d-flex gap-1">
-          <a href="{% url 'article.update' article.id %}" class="btn btn-success btn-sm">Обновить</a>
+          {% if perms.articles.change_article %}
+            <a href="{% url 'article.update' article.id %}" class="btn btn-success btn-sm">Обновить</a>
+          {% endif %}
           <form method="POST" action="{% url 'article.delete' article.id %}">
             {% csrf_token %}
             <button class="btn btn-danger btn-sm">Удалить</button>

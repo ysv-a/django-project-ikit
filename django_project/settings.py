@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
 
     "articles",
-    "blogs"
+    "blogs",
+    "users",
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -145,3 +146,5 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = '/users/login'
